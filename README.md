@@ -1,36 +1,40 @@
 # Hospital-Management-System
-=>Overview
 
-This project is a Hospital Management System developed in C++. It is a console-based application designed to manage basic hospital operations such as patient records, doctor details, appointments, and billing.
+=> Overview
+
+This is a console-based Hospital Management System written in C++.
+It helps in managing hospital operations like patient details, doctor records, and basic services through a simple menu-driven program.
 
 => Features
 
-Add, view, and delete patient records
+Add new patient details
+View patient records
 Manage doctor information
-Book appointments
-Generate bills
-Search records easily
+Simple and user-friendly menu system
+
 => Technologies Used
 
 C++ Programming Language
 Object-Oriented Programming (OOP)
-File Handling
-=>How to Run
 
-Open the project in any C++ compiler (Code::Blocks / VS Code / Turbo C++)
-Compile the program
-Run the executable file
-Follow the on-screen menu
-=> Project Structure
+=> File Included
 
-main.cpp – Main program file
-patient.cpp / patient.h – Patient management
-doctor.cpp / doctor.h – Doctor management
-=> Future Enhancements
+hospital.cpp – Main source code file
 
-Add GUI (Graphical User Interface)
-Integrate Database (MySQL)
-Online appointment system
+=> How to Run
+
+Download or clone the repository
+Open hospital.cpp in any C++ compiler (VS Code / Code::Blocks / Turbo C++)
+Compile the code
+Run the program
+Use the menu options displayed on screen
+
+=> Future Improvements
+
+Add file handling for data storage
+Implement database support
+Create GUI version
+
 => Author
 
 Raj Kushwah & Abhiraj patel
