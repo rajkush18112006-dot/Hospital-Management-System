@@ -1,0 +1,212 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <fstream>
+using namespace std;
+
+class Patient {
+public:
+    int id, age, doctorId;
+    string name, disease;
+
+    Patient(int i, string n, int a, string d, int docId) {
+        id = i;
+        name = n;
+        age = a;
+        disease = d;
+        doctorId = docId;
+    }
+
+    void display() {
+        cout << "ID: " << id << " | Name: " << name
+             << " | Age: " << age
+             << " | Disease: " << disease
+             << " | Doctor ID: " << doctorId << endl;
+    }
+};
+
+class Doctor {
+public:
+    int id;
+    string name, specialization;
+
+    Doctor(int i, string n, string s) {
+        id = i;
+        name = n;
+        specialization = s;
+    }
+
+    void display() {
+        cout << "ID: " << id << " | Name: " << name
+             << " | Specialization: " << specialization << endl;
+    }
+};
+
+class Hospital {
+private:
+    vector<Patient> patients;
+    vector<Doctor> doctors;
+
+public:
+    void addDoctor() {
+        int id;
+        string name, spec;
+        cout << "Enter Doctor ID: "; cin >> id;
+        cout << "Enter Name: "; cin >> name;
+        cout << "Enter Specialization: "; cin >> spec;
+
+        doctors.push_back(Doctor(id, name, spec));
+        cout << "Doctor Added!\n";
+    }
+
+    void viewDoctors() {
+        if (doctors.empty()) {
+            cout << "No doctors available\n";
+            return;
+        }
+        for (auto &d : doctors) d.display();
+    }
+
+    bool doctorExists(int id) {
+        for (auto &d : doctors) {
+            if (d.id == id) return true;
+        }
+        return false;
+    }
+
+    void addPatient() {
+        int id, age, docId;
+        string name, disease;
+
+        cout << "Enter Patient ID: "; cin >> id;
+        cout << "Enter Name: "; cin >> name;
+        cout << "Enter Age: "; cin >> age;
+        cout << "Enter Disease: "; cin >> disease;
+
+        viewDoctors();
+        cout << "Assign Doctor ID: "; cin >> docId;
+
+        if (!doctorExists(docId)) {
+            cout << "Invalid Doctor ID! Patient not added.\n";
+            return;
+        }
+
+        patients.push_back(Patient(id, name, age, disease, docId));
+        cout << "Patient Added Successfully!\n";
+    }
+
+    void viewPatients() {
+        if (patients.empty()) {
+            cout << "No patients found\n";
+            return;
+        }
+        for (auto &p : patients) p.display();
+    }
+
+    void updatePatient() {
+        int id;
+        cout << "Enter Patient ID to update: "; cin >> id;
+
+        for (auto &p : patients) {
+            if (p.id == id) {
+                cout << "Enter New Name: "; cin >> p.name;
+                cout << "Enter New Age: "; cin >> p.age;
+                cout << "Enter New Disease: "; cin >> p.disease;
+
+                viewDoctors();
+                cout << "Enter New Doctor ID: "; cin >> p.doctorId;
+
+                cout << "Updated Successfully!\n";
+                return;
+            }
+        }
+        cout << "Patient Not Found\n";
+    }
+
+    void deletePatient() {
+        int id;
+        cout << "Enter Patient ID to delete: "; cin >> id;
+
+        for (int i = 0; i < patients.size(); i++) {
+            if (patients[i].id == id) {
+                patients.erase(patients.begin() + i);
+                cout << "Deleted Successfully!\n";
+                return;
+            }
+        }
+        cout << "Patient Not Found\n";
+    }
+
+    void saveToFile() {
+        ofstream file("patients.txt");
+
+        for (auto &p : patients) {
+            file << p.id << " "
+                 << p.name << " "
+                 << p.age << " "
+                 << p.disease << " "
+                 << p.doctorId << endl;
+        }
+
+        file.close();
+        cout << "Data Saved to File!\n";
+    }
+};
+
+class Login {
+public:
+    bool authenticate() {
+        string u, p;
+        cout << "Username: "; cin >> u;
+        cout << "Password: "; cin >> p;
+
+        if (u == "admin" && p == "1234") {
+            cout << "Login Successful!\n";
+            return true;
+        } else {
+            cout << "Invalid Credentials!\n";
+            return false;
+        }
+    }
+};
+
+int main() {
+    Login login;
+
+    if (!login.authenticate()) {
+        return 0;
+    }
+
+    Hospital h;
+    int ch = 0;
+
+    do {
+        cout << "\n--- Hospital Management System ---\n";
+        cout << "1. Add Doctor\n";
+        cout << "2. View Doctors\n";
+        cout << "3. Add Patient\n";
+        cout << "4. View Patients\n";
+        cout << "5. Update Patient\n";
+        cout << "6. Delete Patient\n";
+        cout << "7. Save to File\n";
+        cout << "8. Exit\n";
+        cout << "Enter choice: ";
+
+        cin >> ch;
+
+        switch (ch) {
+            case 1: h.addDoctor(); break;
+            case 2: h.viewDoctors(); break;
+            case 3: h.addPatient(); break;
+            case 4: h.viewPatients(); break;
+            case 5: h.updatePatient(); break;
+            case 6: h.deletePatient(); break;
+            case 7: h.saveToFile(); break;
+            case 8: cout << "Exiting...\n"; break;
+            default: cout << "Invalid choice!\n";
+        }
+
+    } while (ch != 8);
+
+    return 0;
+}
